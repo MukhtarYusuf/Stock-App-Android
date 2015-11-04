@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Links</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Click a Button</string>
+    <string name="sjsu">Go to SJSU Website</string>
+    <string name="stock">Check Stock</string>
+    <string name="result">Results to Show Here...</string>
+    <string-array name="symbols">
+        <item>GOOG</item>
+        <item>YHOO</item>
+        <item>AAPL</item>
+        <item>EBAY</item>
+        <item>AMZN</item>
+        <item>ADBE</item>
+        <item>FB</item>
+        <item>MSFT</item>
+    </string-array>
+
+</resources>
