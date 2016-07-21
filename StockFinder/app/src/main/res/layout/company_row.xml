@@ -27,6 +27,7 @@
         android:textSize="18dp"
         android:textColor="@color/md_grey_600"
         android:layout_weight="1"
-        android:textAlignment="center"/>
+        android:layout_gravity="end"
+        android:textAlignment="viewEnd"/>
 
 </LinearLayout>

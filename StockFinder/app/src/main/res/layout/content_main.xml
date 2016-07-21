@@ -13,30 +13,29 @@
     tools:showIn="@layout/activity_main"
     tools:context="com.example.mukhtaryusuf.stockfinder.MainActivity">
 
-    <TextView
-        android:id="@+id/textViewResult"
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="0dp"/>
+    <!--<TextView-->
+        <!--android:id="@+id/textViewResult"-->
+        <!--android:text=""-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="0dp"/>-->
 
     <ListView
         android:id="@+id/listViewResult"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textViewResult"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp"
-        android:layout_above="@+id/buttonProcess" />
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"/>
 
-    <Button
-        android:id="@+id/buttonProcess"
-        android:text="@string/buttonProcess"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <!--<Button-->
+        <!--android:id="@+id/buttonProcess"-->
+        <!--android:text="@string/buttonProcess"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="45dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
 </RelativeLayout>
