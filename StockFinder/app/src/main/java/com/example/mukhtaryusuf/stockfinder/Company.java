@@ -5,6 +5,7 @@ package com.example.mukhtaryusuf.stockfinder;
  */
 
 public class Company {
+    private String symbol;
     private String name;
     private String price;
     private String weekHigh;
@@ -14,7 +15,8 @@ public class Company {
     private String priceEarning;
     private String netChange;
 
-    public Company(String name, String price, String weekHigh, String weekLow, String dividend, String volume, String priceEarning, String netChange) {
+    public Company(String symbol, String name, String price, String weekHigh, String weekLow, String dividend, String volume, String priceEarning, String netChange) {
+        this.symbol = symbol;
         this.name = name;
         this.price = price;
         this.weekHigh = weekHigh;
@@ -23,6 +25,14 @@ public class Company {
         this.volume = volume;
         this.priceEarning = priceEarning;
         this.netChange = netChange;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public String getName() {
@@ -91,7 +101,9 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company Name: " + name + "\n" +
+        return "Company Symbol: " + symbol + "\n" +
+                "Company Name: " + name + "\n" +
+                "Price: " + price + "\n" +
                 "Week High: " + weekHigh + "\n" +
                 "Week Low: " + weekLow + "\n" +
                 "Dividend: " + dividend + "\n" +

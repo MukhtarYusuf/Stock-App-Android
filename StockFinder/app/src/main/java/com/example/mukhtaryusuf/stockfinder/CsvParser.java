@@ -26,7 +26,8 @@ public class CsvParser {
                         companyFields[4],
                         companyFields[5],
                         companyFields[6],
-                        companyFields[7]
+                        companyFields[7],
+                        companyFields[8]
                 );
                 parsedCompanyList.add(company);
             }

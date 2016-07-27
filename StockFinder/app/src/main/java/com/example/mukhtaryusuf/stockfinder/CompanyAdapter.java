@@ -39,15 +39,30 @@ public class CompanyAdapter extends ArrayAdapter<Company> {
         super.getView(position, convertView, parent);
 
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = layoutInflater.inflate(R.layout.company_row, parent, false);
+        View rowView = layoutInflater.inflate(R.layout.company_row_test1, parent, false);
+
+        TextView cSymbolTextView = (TextView) rowView.findViewById(R.id.company_symbol);
         TextView cNameTextView = (TextView) rowView.findViewById(R.id.company_name);
         TextView sValueTextView = (TextView) rowView.findViewById(R.id.stock_value);
+        TextView pChangeTextView = (TextView) rowView.findViewById(R.id.percentage_change);
 
-        //Set TextViews Here
+        cSymbolTextView.setText(data.get(position).getSymbol());
         cNameTextView.setText(data.get(position).getName());
         sValueTextView.setText(data.get(position).getPrice());
+        pChangeTextView.setText(data.get(position).getNetChange());
 
-        //cNameTextView.setText("It works!");
+        if(data.get(position).getNetChange().charAt(0) == '+')
+            pChangeTextView.setTextColor(context.getResources().getColor(R.color.md_green_A700));
+        else if(data.get(position).getNetChange().charAt(0) == '-')
+            pChangeTextView.setTextColor(context.getResources().getColor(R.color.md_red_400));
+
+//        TextView cNameTextView = (TextView) rowView.findViewById(R.id.company_name);
+//        TextView sValueTextView = (TextView) rowView.findViewById(R.id.stock_value);
+//
+//        //Set TextViews Here
+//        cNameTextView.setText(data.get(position).getName());
+//        sValueTextView.setText(data.get(position).getPrice());
+
 
         return rowView;
     }

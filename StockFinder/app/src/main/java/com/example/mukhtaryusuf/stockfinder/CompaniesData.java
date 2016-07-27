@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class CompaniesData {
     ArrayList<String> companySymbols;
     ArrayList<Company> companyList;
-    final String BASE_URL = "http://finance.yahoo.com/d/quotes.csv?f=nl1kjdvrp2&s=";
+    final String BASE_URL = "http://finance.yahoo.com/d/quotes.csv?f=snl1kjdvrp2&s=";
     String completeUrl;
     String data;
 

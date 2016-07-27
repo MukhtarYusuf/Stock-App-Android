@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="7dp"
+    android:paddingBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/company_symbol"
+            android:text="GOOG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/md_grey_600"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/company_name"
+            android:text="@string/unknown"
+            android:paddingRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="@color/md_grey_800"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:id="@+id/stock_value"
+            android:text="@string/unknown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/md_grey_600"
+            android:layout_weight="1"
+            android:textAlignment="textEnd"
+            android:layout_gravity="end" />
+
+        <TextView
+            android:id="@+id/percentage_change"
+            android:text="@string/unknown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/md_grey_600"
+            android:layout_weight="1"
+            android:textAlignment="textEnd"
+            android:layout_gravity="end"/>
+
+    </LinearLayout>
+
+</LinearLayout>
