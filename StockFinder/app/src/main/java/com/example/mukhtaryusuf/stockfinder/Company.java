@@ -1,10 +1,16 @@
 package com.example.mukhtaryusuf.stockfinder;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * Created by mukhtaryusuf on 6/16/16.
  */
 
-public class Company {
+public class Company implements Serializable {
+
+    ArrayList<String[]> detailsList = new ArrayList<>();
+
     private String symbol;
     private String name;
     private String price;
@@ -97,6 +103,31 @@ public class Company {
 
     public void setNetChange(String netChange) {
         this.netChange = netChange;
+    }
+
+    public int getAttributeCount() {
+        return getClass().getDeclaredFields().length;
+    }
+
+    public ArrayList toArrayList(){
+
+        String[] priceRow = {"Price", getPrice()};
+        String[] netChangeRow = {"Net Change", getNetChange()};
+        String[] wHighRow = {"Week High", getWeekHigh()};
+        String[] wLowRow = {"Week Low", getWeekLow()};
+        String[] dividendRow = {"Dividend", getDividend()};
+        String[] volumeRow = {"Volume", getVolume()};
+        String[] pERow = {"P/E", getPriceEarning()};
+
+        detailsList.add(priceRow);
+        detailsList.add(netChangeRow);
+        detailsList.add(wHighRow);
+        detailsList.add(wLowRow);
+        detailsList.add(dividendRow);
+        detailsList.add(volumeRow);
+        detailsList.add(pERow);
+
+        return detailsList;
     }
 
     @Override

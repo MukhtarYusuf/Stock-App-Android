@@ -1,14 +1,18 @@
 package com.example.mukhtaryusuf.stockfinder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +46,16 @@ public class MainActivity extends AppCompatActivity {
 //        results = (TextView) findViewById(R.id.textViewResult);
 //        processButton = (Button) findViewById(R.id.buttonProcess);
         companyListView = (ListView) findViewById(R.id.listViewResult);
+        companyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                Company selectedCompany = (Company) parent.getAdapter().getItem(position);
+                Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
+                intent.putExtra("SelectedCompany", selectedCompany);
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Click works", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         symbols = new ArrayList<String>(Arrays.asList("IBM","ORCL","GOOG","AAPL","YHOO","MSFT","ADBE","EBAY"));
 
