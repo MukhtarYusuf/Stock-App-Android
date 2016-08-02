@@ -9,9 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> symbols;
 
     ListView companyListView;
-    TextView results;
-    Button processButton;
+//    TextView results;
+//    Button processButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
