@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
                 intent.putExtra("SelectedCompany", selectedCompany);
                 startActivity(intent);
-                Toast.makeText(getApplicationContext(), "Click works", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Click works", Toast.LENGTH_SHORT).show();
             }
         });
 

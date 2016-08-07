@@ -15,6 +15,8 @@ import java.util.ArrayList;
  */
 
 public class CompaniesData {
+    private String LOG_TAG = CompaniesData.class.getSimpleName();
+
     ArrayList<String> companySymbols;
     ArrayList<Company> companyList;
     final String BASE_URL = "http://finance.yahoo.com/d/quotes.csv?f=snl1kjdvrp2&s=";
@@ -50,11 +52,12 @@ public class CompaniesData {
                     String line;
                     while ((line = bufferedReader.readLine()) != null) {
                         stringBuilder.append(line + "\n");
+                        Log.i(LOG_TAG, line);
                     }
                 }
 
             }catch (Exception e) {
-            Log.e("Error", e.getMessage());
+            Log.e(LOG_TAG, e.getMessage());
             }
 
             data = stringBuilder.toString();
