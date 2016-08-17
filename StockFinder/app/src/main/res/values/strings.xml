@@ -4,4 +4,6 @@
     <string name="textViewResult">Hello World!</string>
     <string name="buttonProcess">Button</string>
     <string name="unknown">---</string>
+    <string name="app_label">Stock Finder</string>
+    <string name="search_hint">Search Companies</string>
 </resources>
