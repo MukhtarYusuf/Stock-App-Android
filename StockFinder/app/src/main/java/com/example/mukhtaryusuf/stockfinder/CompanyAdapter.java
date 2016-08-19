@@ -1,10 +1,12 @@
 package com.example.mukhtaryusuf.stockfinder;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,13 +19,17 @@ public class CompanyAdapter extends ArrayAdapter<Company> {
 
     Context context;
     int resource;
+    ArrayList<Company> originalData;
     ArrayList<Company> data = new ArrayList<>();
+    ArrayList<Company> filteredData = new ArrayList<>();
+    Filter filter;
 
     public CompanyAdapter(Context context, int resource, int textViewResourceId, ArrayList<Company> data) {
         super(context, resource, textViewResourceId, data);
         this.context = context;
         this.resource = resource;
         this.data = data;
+        this.originalData = new ArrayList<>(data);
     }
 
     //    public CompanyAdapter(Context context, int resource, ArrayList<Company> data) {
@@ -65,5 +71,57 @@ public class CompanyAdapter extends ArrayAdapter<Company> {
 
 
         return rowView;
+    }
+
+    @Override
+    public Filter getFilter(){
+        if(filter == null)
+            filter = new CompanyFilter();
+        return filter;
+    }
+
+    public class CompanyFilter extends Filter{
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            filteredData.clear();
+            FilterResults filterResults = new FilterResults();
+            String query = constraint.toString().toLowerCase();
+
+            if(query == null || query.length() == 0){
+                filteredData.addAll(originalData);
+                filterResults.values = filteredData;
+                filterResults.count = filteredData.size();
+            }else {
+                for(Company c : originalData){
+                    if(c.getName().toLowerCase().contains(query) || c.getSymbol().toLowerCase().contains(query))
+                        filteredData.add(c);
+                }
+                filterResults.values = filteredData;
+                filterResults.count = filteredData.size();
+            }
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            ArrayList<Company> fResults = (ArrayList<Company>) results.values;
+            clear();
+            Log.i("Query", constraint.toString());
+            displayArrayList(fResults);
+
+            for(Company c : fResults) {
+                data.add(c);
+            }
+
+            notifyDataSetChanged();
+        }
+    }
+
+    public void displayArrayList(ArrayList<Company> companyList){
+        for(Company c : companyList){
+            Log.i("Filtered List", c.toString());
+        }
     }
 }

@@ -1,8 +1,11 @@
 package com.example.mukhtaryusuf.stockfinder;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> symbols;
 
     ListView companyListView;
+    CompanyAdapter companyAdapter;
 //    TextView results;
 //    Button processButton;
 
@@ -73,6 +77,25 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(companyAdapter != null){
+                    companyAdapter.getFilter().filter(newText);
+                }
+                return true;
+            }
+        });
+
         return true;
     }
 
@@ -112,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(LOG_TAG, c.toString());
                 }
 
-                CompanyAdapter companyAdapter = new CompanyAdapter(getApplicationContext(), R.layout.company_row, R.id.company_name, companyList);
+                companyAdapter = new CompanyAdapter(getApplicationContext(), R.layout.company_row, R.id.company_name, companyList);
                 companyListView.setAdapter(companyAdapter);
             }
         }
