@@ -23,12 +23,14 @@
         <activity android:name=".CompanyDetailsActivity" />
         <activity android:name=".SearchableActivity">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+                android:resource="@xml/searchable" />
         </activity>
+        <activity android:name=".AddCompanyActivity"></activity>
     </application>
 
 </manifest>

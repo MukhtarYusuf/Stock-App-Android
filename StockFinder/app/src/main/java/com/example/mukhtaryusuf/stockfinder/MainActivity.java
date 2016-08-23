@@ -3,6 +3,7 @@ package com.example.mukhtaryusuf.stockfinder;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         Synchronizer synchronizer = new Synchronizer(symbols);
         synchronizer.execute();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("STOCK_FINDER_PREFERENCES", Context.MODE_PRIVATE);
+        
+
 //        processButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -107,8 +111,12 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.help) {
             return true;
+        }
+        if(id == R.id.add_company){
+            Intent intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
