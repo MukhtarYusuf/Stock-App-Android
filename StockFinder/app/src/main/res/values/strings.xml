@@ -8,4 +8,7 @@
     <string name="search_hint">Search Companies</string>
     <string name="add_company">Add Company</string>
     <string name="help">Help</string>
+    <string name="help_title">Help</string>
+    <string name="error_message">Error Fetching Results...</string>
+    <string name="invalid_symbol">Invalid Symbol...</string>
 </resources>

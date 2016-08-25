@@ -14,18 +14,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
+    SharedPreferences sharedPreferences;
     private String LOG_TAG = MainActivity.class.getSimpleName();
+    final ArrayList<String> DEFAULT_SYMBOLS = new ArrayList<>(Arrays.asList("IBM","ORCL","GOOG","AAPL","YHOO","MSFT","ADBE","EBAY"));
     ArrayList<String> symbols;
 
     ListView companyListView;
     CompanyAdapter companyAdapter;
-//    TextView results;
+    TextView errorMessage;
+
 //    Button processButton;
 
     @Override
@@ -45,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-//        results = (TextView) findViewById(R.id.textViewResult);
 //        processButton = (Button) findViewById(R.id.buttonProcess);
+        errorMessage = (TextView) findViewById(R.id.error_message);
         companyListView = (ListView) findViewById(R.id.listViewResult);
         companyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -59,13 +63,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        symbols = new ArrayList<String>(Arrays.asList("IBM","ORCL","GOOG","AAPL","YHOO","MSFT","ADBE","EBAY"));
+        sharedPreferences = getSharedPreferences("STOCK_FINDER_PREFERENCES", Context.MODE_PRIVATE);
 
-        Synchronizer synchronizer = new Synchronizer(symbols);
-        synchronizer.execute();
+        //For Clearing SharedPreferences
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.clear();
+//        editor.commit();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("STOCK_FINDER_PREFERENCES", Context.MODE_PRIVATE);
-        
+        updateUI();
+        //Toast.makeText(this, "onCreate() executed", Toast.LENGTH_LONG).show();
 
 //        processButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -110,9 +116,9 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.help) {
-            return true;
+            Intent intent = new Intent(getApplicationContext(), HelpActivity.class);
+            startActivity(intent);
         }
         if(id == R.id.add_company){
             Intent intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
@@ -120,6 +126,33 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //onResume() not needed for now
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        updateUI();
+//        Toast.makeText(this, "onResume() executed", Toast.LENGTH_LONG).show();
+//    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        updateUI();
+        //Toast.makeText(this, "onRestart() executed", Toast.LENGTH_LONG).show();
+    }
+
+    //Method to Update UI
+    public void updateUI(){
+        try {
+            symbols = (ArrayList<String>) ObjectSerializer.deserialize(sharedPreferences.getString("SAVED_SYMBOLS", ObjectSerializer.serialize(new ArrayList<String>(DEFAULT_SYMBOLS))));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Synchronizer synchronizer = new Synchronizer(symbols);
+        synchronizer.execute();
     }
 
     public class Synchronizer extends CompaniesData {
@@ -137,13 +170,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+                String companyName = "";
+
                 Log.i(LOG_TAG, data);
                 //results.setText(data);
                 for(Company c : companyList){
                     Log.i(LOG_TAG, c.toString());
                 }
 
-                companyAdapter = new CompanyAdapter(getApplicationContext(), R.layout.company_row, R.id.company_name, companyList);
+                companyAdapter = new CompanyAdapter(getApplicationContext(), R.layout.company_row_test1, R.id.company_name, companyList);
+                if(!companyAdapter.isEmpty())
+                    companyName = companyAdapter.getItem(0).getName();
+
+                //Check if List was properly set. If not display error message
+                if(companyName.equals("N/A")){
+                    errorMessage.setVisibility(View.VISIBLE);
+                    companyListView.setVisibility(View.GONE);
+                }else{
+                    errorMessage.setVisibility(View.GONE);
+                    companyListView.setVisibility(View.VISIBLE);
+                }
                 companyListView.setAdapter(companyAdapter);
             }
         }

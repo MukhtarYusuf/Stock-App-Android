@@ -11,23 +11,21 @@
     tools:context="com.example.mukhtaryusuf.stockfinder.MainActivity">
 
     <TextView
-        android:id="@+id/company_name"
+        android:id="@+id/help_label"
         android:text="@string/unknown"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:textColor="@color/md_grey_600"
+        android:textSize="16dp"
+        android:textColor="@color/md_grey_700"
         android:layout_weight="1" />
 
     <TextView
-        android:id="@+id/stock_value"
+        android:id="@+id/help_definition"
         android:text="@string/unknown"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
+        android:textSize="16dp"
         android:textColor="@color/md_grey_600"
-        android:layout_weight="1"
-        android:layout_gravity="end"
-        android:textAlignment="viewEnd"/>
+        android:layout_weight="1" />
 
 </LinearLayout>
