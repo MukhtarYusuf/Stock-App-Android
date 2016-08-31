@@ -17,4 +17,8 @@
         android:id="@+id/add_company"
         android:title="@string/add_company"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/delete_companies"
+        android:title="Delete Companies"
+        app:showAsAction="never"/>
 </menu>

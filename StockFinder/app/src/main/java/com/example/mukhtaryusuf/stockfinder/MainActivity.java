@@ -124,6 +124,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
             startActivity(intent);
         }
+        if(id == R.id.delete_companies){
+            Intent intent = new Intent(getApplicationContext(), DeleteActivity.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -179,8 +183,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 companyAdapter = new CompanyAdapter(getApplicationContext(), R.layout.company_row_test1, R.id.company_name, companyList);
+                //Check if List is Empty
                 if(!companyAdapter.isEmpty())
                     companyName = companyAdapter.getItem(0).getName();
+                else {
+                    errorMessage.setVisibility(View.VISIBLE);
+                    companyListView.setVisibility(View.GONE);
+                    errorMessage.setText("List is Empty...");
+                }
 
                 //Check if List was properly set. If not display error message
                 if(companyName.equals("N/A")){

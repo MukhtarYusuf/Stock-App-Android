@@ -45,7 +45,7 @@ public class CompanyAdapter extends ArrayAdapter<Company> {
         super.getView(position, convertView, parent);
 
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = layoutInflater.inflate(R.layout.company_row_test1, parent, false);
+        View rowView = layoutInflater.inflate(this.resource, parent, false);
 
         TextView cSymbolTextView = (TextView) rowView.findViewById(R.id.company_symbol);
         TextView cNameTextView = (TextView) rowView.findViewById(R.id.company_name);

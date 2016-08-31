@@ -31,7 +31,8 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".AddCompanyActivity" />
-        <activity android:name=".HelpActivity"></activity>
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".DeleteActivity"></activity>
     </application>
 
 </manifest>
