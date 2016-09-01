@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private String LOG_TAG = MainActivity.class.getSimpleName();
     final ArrayList<String> DEFAULT_SYMBOLS = new ArrayList<>(Arrays.asList("IBM","ORCL","GOOG","AAPL","YHOO","MSFT","ADBE","EBAY"));
     ArrayList<String> symbols;
+    ArrayList<Company> companyList1;
 
     ListView companyListView;
     CompanyAdapter companyAdapter;
@@ -126,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
         }
         if(id == R.id.delete_companies){
             Intent intent = new Intent(getApplicationContext(), DeleteActivity.class);
+            intent.putExtra("CompanyList", companyList1);
+
             startActivity(intent);
         }
 
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+                companyList1 = companyList;
                 String companyName = "";
 
                 Log.i(LOG_TAG, data);

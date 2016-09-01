@@ -1,10 +1,12 @@
 package com.example.mukhtaryusuf.stockfinder;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.TextView;
 
@@ -20,37 +22,61 @@ public class DeleteCompanyAdapter extends ArrayAdapter<Company> {
     ArrayList<Company> originalData;
     ArrayList<Company> data = new ArrayList<>();
     ArrayList<Company> filteredData = new ArrayList<>();
+    ArrayList<Boolean> selectedData;
     Filter filter;
+    int selectedItemsCount = 0;
 
     public DeleteCompanyAdapter(Context context, int resource, int textViewResourceId, ArrayList<Company> data) {
         super(context, resource, textViewResourceId, data);
         this.context = context;
         this.resource = resource;
         this.data = data;
+        this.selectedData = new ArrayList<>(this.data.size());
+
+        Log.i("Size of data: ", Integer.toString(this.data.size()));
+
+        for(int i = 0; i < this.data.size(); i++){
+            this.selectedData.add(false);
+        }
+
         this.originalData = new ArrayList<>(data);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         super.getView(position, convertView, parent);
+        View rowView = convertView;
 
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = layoutInflater.inflate(this.resource, parent, false);
+        if(rowView == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            rowView = layoutInflater.inflate(this.resource, parent, false);
+        }
 
+        final CheckBox dCompanyCheckBox = (CheckBox) rowView.findViewById(R.id.delete_checkbox);
         TextView cSymbolTextView = (TextView) rowView.findViewById(R.id.company_symbol);
         TextView cNameTextView = (TextView) rowView.findViewById(R.id.company_name);
-        TextView sValueTextView = (TextView) rowView.findViewById(R.id.stock_value);
-        TextView pChangeTextView = (TextView) rowView.findViewById(R.id.percentage_change);
 
         cSymbolTextView.setText(data.get(position).getSymbol());
         cNameTextView.setText(data.get(position).getName());
-        sValueTextView.setText(data.get(position).getPrice());
-        pChangeTextView.setText(data.get(position).getNetChange());
+        dCompanyCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dCompanyCheckBox.isChecked()) {
+                    selectedData.set(position, true);
+                    selectedItemsCount++;
+                }else {
+                    selectedData.set(position, false);
+                    selectedItemsCount--;
+                }
 
-        if(data.get(position).getNetChange().charAt(0) == '+')
-            pChangeTextView.setTextColor(context.getResources().getColor(R.color.md_green_A700));
-        else if(data.get(position).getNetChange().charAt(0) == '-')
-            pChangeTextView.setTextColor(context.getResources().getColor(R.color.md_red_400));
+                Log.i("Selected data: ", selectedData.get(position).toString());
+            }
+        });
+
+        if(selectedData.get(position))
+            dCompanyCheckBox.setChecked(true);
+        else
+            dCompanyCheckBox.setChecked(false);
 
         return rowView;
     }
