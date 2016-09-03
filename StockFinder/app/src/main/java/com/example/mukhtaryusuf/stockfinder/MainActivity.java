@@ -22,6 +22,8 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     private String LOG_TAG = MainActivity.class.getSimpleName();
     final ArrayList<String> DEFAULT_SYMBOLS = new ArrayList<>(Arrays.asList("IBM","ORCL","GOOG","AAPL","YHOO","MSFT","ADBE","EBAY"));
     ArrayList<String> symbols;
@@ -31,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     CompanyAdapter companyAdapter;
     TextView errorMessage;
 
-//    Button processButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,16 +41,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-//        processButton = (Button) findViewById(R.id.buttonProcess);
         errorMessage = (TextView) findViewById(R.id.error_message);
         companyListView = (ListView) findViewById(R.id.listViewResult);
         companyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -60,27 +50,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
                 intent.putExtra("SelectedCompany", selectedCompany);
                 startActivity(intent);
-                //Toast.makeText(getApplicationContext(), "Click works", Toast.LENGTH_SHORT).show();
             }
         });
 
         sharedPreferences = getSharedPreferences("STOCK_FINDER_PREFERENCES", Context.MODE_PRIVATE);
-
-        //For Clearing SharedPreferences
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.clear();
-//        editor.commit();
-
+        editor = sharedPreferences.edit();
         updateUI();
-        //Toast.makeText(this, "onCreate() executed", Toast.LENGTH_LONG).show();
-
-//        processButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Synchronizer synchronizer = new Synchronizer(symbols);
-//                synchronizer.execute();
-//            }
-//        });
     }
 
     @Override
@@ -130,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("CompanyList", companyList1);
 
             startActivity(intent);
+        }
+        if(id == R.id.restore_defaults){
+            editor.clear();
+            editor.commit();
+            updateUI();
         }
 
         return super.onOptionsItemSelected(item);

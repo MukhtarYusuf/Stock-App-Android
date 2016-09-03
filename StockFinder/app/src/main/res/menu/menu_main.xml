@@ -21,4 +21,8 @@
         android:id="@+id/delete_companies"
         android:title="Delete Companies"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/restore_defaults"
+        android:title="Restore Defaults"
+        app:showAsAction="never"/>
 </menu>
