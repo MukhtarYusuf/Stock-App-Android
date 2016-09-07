@@ -15,80 +15,85 @@ public class CsvParser {
     //--Note: Consider optimizing parse function--
     //Parse function is dependent on the nature and order of API call as well as Company object
     public static ArrayList<Company> parse(String data){
+        Log.i(LOG_TAG, data);
         String[] companyRows = null;
 
         ArrayList<Company> parsedCompanyList = new ArrayList<Company>();
 
         //Split string into rows
-        if(data != null || data != "") {
+        if(data != null && data != "") {
             //data = data.replace("\"","");
             companyRows = data.split("\n");
-        }
 
-        if(companyRows != null) {
-            for (String s : companyRows) {
-                ArrayList<String> companyColumnsAsList = new ArrayList<>(); //Makes it possible to construct company columns from lists
-                String[] testComopanyColumns = null;
-                String[] testCompanyColumns2 = null;
-                Company company = null;
+            if(companyRows != null) {
+                for (String s : companyRows) {
+                    ArrayList<String> companyColumnsAsList = new ArrayList<>(); //Makes it possible to construct company columns from lists
+                    String[] testComopanyColumns = null;
+                    String[] testCompanyColumns2 = null;
+                    Company company = null;
 
-                testComopanyColumns = s.split("\"");
-                if(testComopanyColumns.length > 4) { //Full Data Retrieved with no N/A results
+                    testComopanyColumns = s.split("\"");
+                    if(testComopanyColumns.length > 4) { //Full Data Retrieved with no N/A results
 
-                    //Split other comma separated data
-                    testCompanyColumns2 = testComopanyColumns[4].split(",");
+                        //Split other comma separated data
+                        testCompanyColumns2 = testComopanyColumns[4].split(",");
 
-                    companyColumnsAsList.add(testComopanyColumns[1]); //Add symbol. Skip index 0 because it's a space from split() function
-                    companyColumnsAsList.add(testComopanyColumns[3]); //Add name
-                    companyColumnsAsList.addAll(Arrays.asList(testCompanyColumns2)); //Add rest of data
-                    companyColumnsAsList.add(testComopanyColumns[5]); //Add % change
+                        companyColumnsAsList.add(testComopanyColumns[1]); //Add symbol. Skip index 0 because it's a space from split() function
+                        companyColumnsAsList.add(testComopanyColumns[3]); //Add name
+                        companyColumnsAsList.addAll(Arrays.asList(testCompanyColumns2)); //Add rest of data
+                        companyColumnsAsList.add(testComopanyColumns[5]); //Add % change
 
-                    String[] companyFields = new String[companyColumnsAsList.size()];
-                    companyFields = companyColumnsAsList.toArray(companyFields);
+                        String[] companyFields = new String[companyColumnsAsList.size()];
+                        companyFields = companyColumnsAsList.toArray(companyFields);
 
-                    printArray(companyFields);
+                        printArray(companyFields);
 
-                    //Skip companyFields[2] because an empty string from split() is stored there
-                    company = new Company(companyFields[0],
-                        companyFields[1],
-                        companyFields[3],
-                        companyFields[4],
-                        companyFields[5],
-                        companyFields[6],
-                        companyFields[7],
-                        companyFields[8],
-                        companyFields[9]
-                    );
-                }else{
-                    testCompanyColumns2 = testComopanyColumns[2].split(",");
+                        //Skip companyFields[2] because an empty string from split() is stored there
+                        company = new Company(companyFields[0],
+                                companyFields[1],
+                                companyFields[3],
+                                companyFields[4],
+                                companyFields[5],
+                                companyFields[6],
+                                companyFields[7],
+                                companyFields[8],
+                                companyFields[9]
+                        );
+                    }else{
+                        testCompanyColumns2 = testComopanyColumns[2].split(",");
 
-                    companyColumnsAsList.add(testComopanyColumns[1]);
-                    companyColumnsAsList.addAll(Arrays.asList(testCompanyColumns2));
+                        companyColumnsAsList.add(testComopanyColumns[1]);
+                        companyColumnsAsList.addAll(Arrays.asList(testCompanyColumns2));
 
-                    if(testComopanyColumns.length == 4) //Row has extra quotes at the end for % change
-                        companyColumnsAsList.add(testComopanyColumns[3]);
+                        if(testComopanyColumns.length == 4) //Row has extra quotes at the end for % change
+                            companyColumnsAsList.add(testComopanyColumns[3]);
 
-                    String[] companyFields = new String[companyColumnsAsList.size()];
-                    companyFields = companyColumnsAsList.toArray(companyFields);
+                        String[] companyFields = new String[companyColumnsAsList.size()];
+                        companyFields = companyColumnsAsList.toArray(companyFields);
 
-                    printArray(companyFields);
-                    //Skip companyFields[1] because an empty string from split() is stored there
-                    company = new Company(companyFields[0],
-                            companyFields[2],
-                            companyFields[3],
-                            companyFields[4],
-                            companyFields[5],
-                            companyFields[6],
-                            companyFields[7],
-                            companyFields[8],
-                            companyFields[9]
-                    );
+                        printArray(companyFields);
+                        //Skip companyFields[1] because an empty string from split() is stored there
+                        company = new Company(companyFields[0],
+                                companyFields[2],
+                                companyFields[3],
+                                companyFields[4],
+                                companyFields[5],
+                                companyFields[6],
+                                companyFields[7],
+                                companyFields[8],
+                                companyFields[9]
+                        );
+                    }
+                    parsedCompanyList.add(company);
                 }
-                parsedCompanyList.add(company);
             }
+            return parsedCompanyList;
+        }else{
+            return null;
         }
-        return parsedCompanyList;
     }
+
+
 
     //Get's the nth occurence of specified character
     private static int getOccurenceOf(String s, char c, int n){

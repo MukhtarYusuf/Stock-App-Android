@@ -39,28 +39,30 @@ public class CompaniesData {
             HttpURLConnection connection;
             BufferedReader bufferedReader;
             try {
-                for(String s : companySymbols){
-                    completeUrl = BASE_URL + s;
-                    URL url = new URL(completeUrl);
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
+                if(companySymbols != null) {
+                    for (String s : companySymbols) {
+                        completeUrl = BASE_URL + s;
+                        URL url = new URL(completeUrl);
+                        connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("GET");
+                        connection.connect();
 
-                    InputStream is = connection.getInputStream();
-                    bufferedReader = new BufferedReader(new InputStreamReader(is));
+                        InputStream is = connection.getInputStream();
+                        bufferedReader = new BufferedReader(new InputStreamReader(is));
 
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(line + "\n");
-                        Log.i(LOG_TAG, line);
+                        String line;
+                        while ((line = bufferedReader.readLine()) != null) {
+                            stringBuilder.append(line + "\n");
+                            Log.i(LOG_TAG, line);
+                        }
                     }
                 }
-
             }catch (Exception e) {
             Log.e(LOG_TAG, e.getMessage());
             }
 
             data = stringBuilder.toString();
+            Log.i(LOG_TAG, data + "empty!");
             companyList = CsvParser.parse(data);
 
             return null;

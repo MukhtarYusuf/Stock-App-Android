@@ -4,6 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -55,7 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("STOCK_FINDER_PREFERENCES", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        updateUI();
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if(activeNetworkInfo != null && activeNetworkInfo.isConnected())
+            updateUI();
+        else
+            displayError("No Internet Connection");
     }
 
     @Override
@@ -134,12 +142,26 @@ public class MainActivity extends AppCompatActivity {
     public void updateUI(){
         try {
             symbols = (ArrayList<String>) ObjectSerializer.deserialize(sharedPreferences.getString("SAVED_SYMBOLS", ObjectSerializer.serialize(new ArrayList<String>(DEFAULT_SYMBOLS))));
+            Log.i(LOG_TAG, String.valueOf(symbols.size()));
         }catch (Exception e){
             e.printStackTrace();
         }
 
         Synchronizer synchronizer = new Synchronizer(symbols);
         synchronizer.execute();
+    }
+
+    //Method to Display Error Message
+    public void displayError(String error){
+        errorMessage.setVisibility(View.VISIBLE);
+        companyListView.setVisibility(View.GONE);
+        errorMessage.setText(error);
+    }
+
+    //Method to Display Default Error Message
+    public void displayError(){
+        errorMessage.setVisibility(View.VISIBLE);
+        companyListView.setVisibility(View.GONE);
     }
 
     public class Synchronizer extends CompaniesData {
@@ -162,29 +184,30 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i(LOG_TAG, data);
                 //results.setText(data);
-                for(Company c : companyList){
-                    Log.i(LOG_TAG, c.toString());
-                }
+//                for(Company c : companyList){
+//                    Log.i(LOG_TAG, c.toString());
+//                }
 
-                companyAdapter = new CompanyAdapter(getApplicationContext(), R.layout.company_row_test1, R.id.company_name, companyList);
-                //Check if List is Empty
-                if(!companyAdapter.isEmpty())
-                    companyName = companyAdapter.getItem(0).getName();
-                else {
-                    errorMessage.setVisibility(View.VISIBLE);
-                    companyListView.setVisibility(View.GONE);
-                    errorMessage.setText("List is Empty...");
-                }
-
-                //Check if List was properly set. If not display error message
-                if(companyName.equals("N/A")){
-                    errorMessage.setVisibility(View.VISIBLE);
-                    companyListView.setVisibility(View.GONE);
+                //List of Symbols is null or empty and returns null companyList
+                if(companyList == null){
+                    displayError("List is Empty...");
                 }else{
-                    errorMessage.setVisibility(View.GONE);
-                    companyListView.setVisibility(View.VISIBLE);
+                    companyAdapter = new CompanyAdapter(getApplicationContext(), R.layout.company_row_test1, R.id.company_name, companyList);
+                    //Check if List is empty and get first company name
+                    if(!companyAdapter.isEmpty()) {
+                        companyName = companyAdapter.getItem(0).getName();
+                        //Check if List was properly set. If not display error message
+                        if (companyName.equals("N/A")) {
+                            displayError();
+                        } else {
+                            errorMessage.setVisibility(View.GONE);
+                            companyListView.setVisibility(View.VISIBLE);
+                        }
+                    }else {
+                        displayError("List is Empty...");
+                    }
+                    companyListView.setAdapter(companyAdapter);
                 }
-                companyListView.setAdapter(companyAdapter);
             }
         }
     }
