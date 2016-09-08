@@ -46,8 +46,6 @@ public class CsvParser {
                         String[] companyFields = new String[companyColumnsAsList.size()];
                         companyFields = companyColumnsAsList.toArray(companyFields);
 
-                        printArray(companyFields);
-
                         //Skip companyFields[2] because an empty string from split() is stored there
                         company = new Company(companyFields[0],
                                 companyFields[1],
@@ -71,7 +69,6 @@ public class CsvParser {
                         String[] companyFields = new String[companyColumnsAsList.size()];
                         companyFields = companyColumnsAsList.toArray(companyFields);
 
-                        printArray(companyFields);
                         //Skip companyFields[1] because an empty string from split() is stored there
                         company = new Company(companyFields[0],
                                 companyFields[2],
@@ -90,27 +87,6 @@ public class CsvParser {
             return parsedCompanyList;
         }else{
             return null;
-        }
-    }
-
-
-
-    //Get's the nth occurence of specified character
-    private static int getOccurenceOf(String s, char c, int n){
-        int count = 0;
-
-        for(int i = 0; i < s.length(); i++){
-            if(s.charAt(i) == c)
-                count++;
-            if(count == n)
-                return i;
-        }
-        return -1; //nth occurence not found;
-    }
-
-    static void printArray(String[] strings){
-        for(int i = 0; i < strings.length; i++){
-            Log.i(LOG_TAG + " " + i, strings[i]);
         }
     }
 }

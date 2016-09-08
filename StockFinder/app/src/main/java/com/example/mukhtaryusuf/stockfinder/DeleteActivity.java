@@ -93,49 +93,43 @@ public class DeleteActivity extends AppCompatActivity {
 
         //Delete Button was Tapped
         if(id == R.id.delete){
-            if(deleteCompanyAdapter.selectedItemsCount == 0 || deleteCompanyAdapter.data == null || deleteCompanyAdapter.data.size() == 0){
-                Toast.makeText(getApplicationContext(), "Please Select Items to Delete...", Toast.LENGTH_LONG).show();
-            }else{
-                Object[] dataArray0 = deleteCompanyAdapter.data.toArray();
-                Company[] dataArray = new Company[dataArray0.length];
-                for(int i = 0; i < dataArray.length; i++){
-                    dataArray[i] = (Company) dataArray0[i];
-                }
-                selectedData1 = deleteCompanyAdapter.selectedData;
-                for(int i = 0; i < selectedData1.size(); i++){
-                    if(selectedData1.get(i)){
-
-                        deleteCompanyAdapter.data.set(i, null);
-
-//                    deleteCompanyAdapter.remove(selectedCompany);
-                        deleteCompanyAdapter.selectedData.set(i, null);
-                        symbols.set(i, null);
-
+            if(deleteCompanyAdapter != null) {
+                if (deleteCompanyAdapter.selectedItemsCount == 0 || deleteCompanyAdapter.data == null || deleteCompanyAdapter.data.size() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please Select Items to Delete...", Toast.LENGTH_LONG).show();
+                } else {
+                    Object[] dataArray0 = deleteCompanyAdapter.data.toArray();
+                    Company[] dataArray = new Company[dataArray0.length];
+                    for (int i = 0; i < dataArray.length; i++) {
+                        dataArray[i] = (Company) dataArray0[i];
                     }
+                    selectedData1 = deleteCompanyAdapter.selectedData;
+                    for (int i = 0; i < selectedData1.size(); i++) {
+                        if (selectedData1.get(i)) {
+
+                            deleteCompanyAdapter.data.set(i, null);
+
+                            deleteCompanyAdapter.selectedData.set(i, null);
+                            symbols.set(i, null);
+
+                        }
+                    }
+                    deleteCompanyAdapter.data.removeAll(Collections.singleton(null));
+                    deleteCompanyAdapter.selectedData.removeAll(Collections.singleton(null));
+                    symbols.removeAll(Collections.singleton(null));
+
+                    deleteCompanyAdapter.notifyDataSetChanged();
+                    try {
+                        editor.putString("SAVED_SYMBOLS", ObjectSerializer.serialize(symbols));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    editor.commit();
+                    Toast.makeText(getApplicationContext(), deleteCompanyAdapter.selectedItemsCount
+                            + " item(s) deleted", Toast.LENGTH_SHORT).show();
+                    deleteCompanyAdapter.selectedItemsCount = 0;
                 }
-                deleteCompanyAdapter.data.removeAll(Collections.singleton(null));
-                deleteCompanyAdapter.selectedData.removeAll(Collections.singleton(null));
-                symbols.removeAll(Collections.singleton(null));
-//            for(int i = 0; i < dataArray.length; i++){
-//                if(deleteCompanyAdapter.data.get(i) == null){
-//                    Company selectedCompany = deleteCompanyAdapter.getItem(i);
-//                    Log.i(LOG_TAG, selectedCompany.toString());
-//
-//                    deleteCompanyAdapter.remove(selectedCompany);
-//                    deleteCompanyAdapter.selectedData.remove(deleteCompanyAdapter.selectedData.get(i));
-//                    symbols.remove(selectedCompany.getSymbol());
-//                }
-//            }
-                deleteCompanyAdapter.notifyDataSetChanged();
-                try{
-                    editor.putString("SAVED_SYMBOLS", ObjectSerializer.serialize(symbols));
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-                editor.commit();
-                Toast.makeText(getApplicationContext(), deleteCompanyAdapter.selectedItemsCount
-                        + " item(s) deleted", Toast.LENGTH_SHORT).show();
-                deleteCompanyAdapter.selectedItemsCount = 0;
+            }else{
+                Toast.makeText(getApplicationContext(), "List is Empty...", Toast.LENGTH_LONG).show();
             }
         }
         return true;

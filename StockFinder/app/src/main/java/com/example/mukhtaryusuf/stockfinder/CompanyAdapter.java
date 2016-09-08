@@ -1,7 +1,6 @@
 package com.example.mukhtaryusuf.stockfinder;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,14 +31,6 @@ public class CompanyAdapter extends ArrayAdapter<Company> {
         this.originalData = new ArrayList<>(data);
     }
 
-    //    public CompanyAdapter(Context context, int resource, ArrayList<Company> data) {
-//        super(context, resource, data);
-//
-//        this.context = context;
-//        this.resource = resource;
-//        this.data = data;
-//    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         super.getView(position, convertView, parent);
@@ -61,14 +52,6 @@ public class CompanyAdapter extends ArrayAdapter<Company> {
             pChangeTextView.setTextColor(context.getResources().getColor(R.color.md_green_A700));
         else if(data.get(position).getNetChange().charAt(0) == '-')
             pChangeTextView.setTextColor(context.getResources().getColor(R.color.md_red_400));
-
-//        TextView cNameTextView = (TextView) rowView.findViewById(R.id.company_name);
-//        TextView sValueTextView = (TextView) rowView.findViewById(R.id.stock_value);
-//
-//        //Set TextViews Here
-//        cNameTextView.setText(data.get(position).getName());
-//        sValueTextView.setText(data.get(position).getPrice());
-
 
         return rowView;
     }
@@ -108,20 +91,12 @@ public class CompanyAdapter extends ArrayAdapter<Company> {
         protected void publishResults(CharSequence constraint, FilterResults results) {
             ArrayList<Company> fResults = (ArrayList<Company>) results.values;
             clear();
-            Log.i("Query", constraint.toString());
-            displayArrayList(fResults);
 
             for(Company c : fResults) {
                 data.add(c);
             }
 
             notifyDataSetChanged();
-        }
-    }
-
-    public void displayArrayList(ArrayList<Company> companyList){
-        for(Company c : companyList){
-            Log.i("Filtered List", c.toString());
         }
     }
 }

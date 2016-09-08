@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,7 +28,7 @@ public class AddCompanyActivity extends AppCompatActivity {
 
     EditText enterCompany;
     ListView addCompanyResults;
-    TextView invalidSymbol;
+    TextView errorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class AddCompanyActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("STOCK_FINDER_PREFERENCES", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        invalidSymbol = (TextView) findViewById(R.id.invalid_symbol);
+        errorMessage = (TextView) findViewById(R.id.invalid_symbol);
         addCompanyResults = (ListView) findViewById(R.id.add_company_results);
 
         enterCompany = (EditText) findViewById(R.id.enter_company_symbol);
@@ -100,6 +99,19 @@ public class AddCompanyActivity extends AppCompatActivity {
         return true;
     }
 
+    //Method to Display Error Message
+    public void displayError(String error){
+        errorMessage.setVisibility(View.VISIBLE);
+        addCompanyResults.setVisibility(View.GONE);
+        errorMessage.setText(error);
+    }
+
+    //Method to Display Default Error Message
+    public void displayError(){
+        errorMessage.setVisibility(View.VISIBLE);
+        addCompanyResults.setVisibility(View.GONE);
+    }
+
     public class Synchronizer extends CompaniesData {
         public Synchronizer(ArrayList<String> arrayList) {
             super(arrayList);
@@ -116,21 +128,26 @@ public class AddCompanyActivity extends AppCompatActivity {
                 super.onPostExecute(aVoid);
                 String companyName = "";
 
-                companyAdapter = new CompanyAdapter(getApplicationContext(), R.layout.company_row_test1, R.id.company_name, companyList);
-                if(!companyAdapter.isEmpty())
-                    companyName = companyAdapter.getItem(0).getName();
+                //CompanyList is Null Because of Network Error
+                if(companyList == null && isNetworkError) {
+                    displayError("Error Retrieving Data. Please Check Internet Connection...");
+                }else if(companyList == null){
+                    //Do Nothing
+                }else {
+                    companyAdapter = new CompanyAdapter(getApplicationContext(), R.layout.company_row_test1, R.id.company_name, companyList);
+                    if (!companyAdapter.isEmpty())
+                        companyName = companyAdapter.getItem(0).getName();
 
-                //Check if valid company name is returned. Display invalid symbol if not
-                if(companyName.equals("N/A")){
-                    Log.i(LOG_TAG, companyName);
-                    invalidSymbol.setVisibility(View.VISIBLE);
-                    addCompanyResults.setVisibility(View.GONE);
-                }else{
-                    invalidSymbol.setVisibility(View.GONE);
-                    addCompanyResults.setVisibility(View.VISIBLE);
+                    //Check if valid company name is returned. Display invalid symbol if not
+                    if (companyName.equals("N/A")) {
+                        displayError();
+                    } else {
+                        errorMessage.setVisibility(View.GONE);
+                        addCompanyResults.setVisibility(View.VISIBLE);
+                    }
+
+                    addCompanyResults.setAdapter(companyAdapter);
                 }
-
-                addCompanyResults.setAdapter(companyAdapter);
             }
         }
     }

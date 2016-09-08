@@ -1,7 +1,6 @@
 package com.example.mukhtaryusuf.stockfinder;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -22,6 +21,7 @@ public class CompaniesData {
     final String BASE_URL = "http://finance.yahoo.com/d/quotes.csv?f=snl1kjdvrp2&s=";
     String completeUrl;
     String data;
+    boolean isNetworkError = false;
 
     public CompaniesData(ArrayList<String> arrayList){
         this.companySymbols = arrayList;
@@ -53,16 +53,15 @@ public class CompaniesData {
                         String line;
                         while ((line = bufferedReader.readLine()) != null) {
                             stringBuilder.append(line + "\n");
-                            Log.i(LOG_TAG, line);
                         }
                     }
                 }
             }catch (Exception e) {
-            Log.e(LOG_TAG, e.getMessage());
+                e.printStackTrace();
+                isNetworkError = true;
             }
 
             data = stringBuilder.toString();
-            Log.i(LOG_TAG, data + "empty!");
             companyList = CsvParser.parse(data);
 
             return null;

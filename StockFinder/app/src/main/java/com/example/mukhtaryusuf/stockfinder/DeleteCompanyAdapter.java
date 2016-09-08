@@ -1,13 +1,11 @@
 package com.example.mukhtaryusuf.stockfinder;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.Filter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,9 +19,7 @@ public class DeleteCompanyAdapter extends ArrayAdapter<Company> {
     int resource;
     ArrayList<Company> originalData;
     ArrayList<Company> data = new ArrayList<>();
-    ArrayList<Company> filteredData = new ArrayList<>();
     ArrayList<Boolean> selectedData;
-    Filter filter;
     int selectedItemsCount = 0;
 
     public DeleteCompanyAdapter(Context context, int resource, int textViewResourceId, ArrayList<Company> data) {
@@ -33,8 +29,7 @@ public class DeleteCompanyAdapter extends ArrayAdapter<Company> {
         this.data = data;
         this.selectedData = new ArrayList<>(this.data.size());
 
-        Log.i("Size of data: ", Integer.toString(this.data.size()));
-
+        //Initialize Selected data
         for(int i = 0; i < this.data.size(); i++){
             this.selectedData.add(false);
         }
@@ -68,8 +63,6 @@ public class DeleteCompanyAdapter extends ArrayAdapter<Company> {
                     selectedData.set(position, false);
                     selectedItemsCount--;
                 }
-
-                Log.i("Selected data: ", selectedData.get(position).toString());
             }
         });
 

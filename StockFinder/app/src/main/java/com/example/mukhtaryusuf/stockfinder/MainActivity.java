@@ -57,13 +57,15 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("STOCK_FINDER_PREFERENCES", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+        //Get ConnectivityManager and Check for Network Connection
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         if(activeNetworkInfo != null && activeNetworkInfo.isConnected())
             updateUI();
         else
-            displayError("No Internet Connection");
+            displayError("No Internet Connection...");
     }
 
     @Override
@@ -182,28 +184,24 @@ public class MainActivity extends AppCompatActivity {
                 companyList1 = companyList;
                 String companyName = "";
 
-                Log.i(LOG_TAG, data);
-                //results.setText(data);
-//                for(Company c : companyList){
-//                    Log.i(LOG_TAG, c.toString());
-//                }
-
-                //List of Symbols is null or empty and returns null companyList
-                if(companyList == null){
+                //CompanyList is Null Because of Network Error
+                if(companyList == null && isNetworkError){
+                    displayError("Error Retrieving Data. Please Check Internet Connection...");
+                }else if(companyList == null)//List of Symbols is null or empty and returns null companyList
                     displayError("List is Empty...");
-                }else{
+                else{
                     companyAdapter = new CompanyAdapter(getApplicationContext(), R.layout.company_row_test1, R.id.company_name, companyList);
                     //Check if List is empty and get first company name
                     if(!companyAdapter.isEmpty()) {
                         companyName = companyAdapter.getItem(0).getName();
-                        //Check if List was properly set. If not display error message
+                        //Check if List was properly set. If not display default error message
                         if (companyName.equals("N/A")) {
                             displayError();
                         } else {
                             errorMessage.setVisibility(View.GONE);
                             companyListView.setVisibility(View.VISIBLE);
                         }
-                    }else {
+                    }else {//List is Empty for Other Reasons
                         displayError("List is Empty...");
                     }
                     companyListView.setAdapter(companyAdapter);
