@@ -56,13 +56,13 @@
             android:layout_weight="1"
             android:background="@color/md_white_1000"/>
 
-        <ImageView
-            android:id="@+id/company_chart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/md_white_1000"
-            android:layout_marginTop="5dp"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/company_chart"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/md_white_1000"-->
+            <!--android:layout_marginTop="5dp"/>-->
     </LinearLayout>
 
 </RelativeLayout>
