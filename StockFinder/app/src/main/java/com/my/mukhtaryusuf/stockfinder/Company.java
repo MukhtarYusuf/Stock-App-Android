@@ -1,6 +1,7 @@
 package com.my.mukhtaryusuf.stockfinder;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -14,23 +15,40 @@ public class Company implements Serializable {
     private String symbol;
     private String name;
     private String price;
+    private String open;
+    private String close;
+    private String high;
+    private String low;
     private String weekHigh;
     private String weekLow;
 //    private String dividend;
     private String volume;
     private String priceEarning;
     private String netChange;
+    private String marketCap;
 
-    public Company(String symbol, String name, String price, String weekHigh, String weekLow, String volume, String priceEarning, String netChange) {
+
+
+    private ArrayList<CompanyNews> companyNews;
+
+    public Company(String symbol, String name, String price, String open, String close,
+                   String high, String low, String weekHigh, String weekLow, String volume,
+                   String priceEarning, String netChange, String marketCap) {
         this.symbol = symbol;
         this.name = name;
         this.price = price;
+        this.open = open;
+        this.close = close;
+        this.high = high;
+        this.low = low;
         this.weekHigh = weekHigh;
         this.weekLow = weekLow;
 //        this.dividend = dividend;
-        this.volume = volume;
+        setVolume(volume);
         this.priceEarning = priceEarning;
         this.netChange = netChange;
+        setMarketCap(marketCap);
+        companyNews = new ArrayList<>();
     }
 
     public String getSymbol() {
@@ -86,7 +104,13 @@ public class Company implements Serializable {
     }
 
     public void setVolume(String volume) {
-        this.volume = volume;
+        try {
+            long lVolume = Long.parseLong(volume);
+            DecimalFormat decimalFormat = new DecimalFormat("###,###");
+            this.volume = decimalFormat.format(lVolume);
+        }catch (NumberFormatException e){
+            this.volume = volume;
+        }
     }
 
     public String getPriceEarning() {
@@ -109,23 +133,87 @@ public class Company implements Serializable {
         return getClass().getDeclaredFields().length;
     }
 
+    public String getOpen() {
+        return open;
+    }
+
+    public void setOpen(String open) {
+        this.open = open;
+    }
+
+    public String getClose() {
+        return close;
+    }
+
+    public void setClose(String close) {
+        this.close = close;
+    }
+
+    public String getHigh() {
+        return high;
+    }
+
+    public void setHigh(String high) {
+        this.high = high;
+    }
+
+    public String getLow() {
+        return low;
+    }
+
+    public void setLow(String low) {
+        this.low = low;
+    }
+
+    public String getMarketCap() {
+        return marketCap;
+    }
+
+    public void setMarketCap(String marketCap) {
+        try{
+            long lMarketCap = Long.parseLong(marketCap);
+            DecimalFormat decimalFormat = new DecimalFormat("###,###");
+            this.marketCap = decimalFormat.format(lMarketCap);
+        }catch (NumberFormatException e){
+            this.marketCap = marketCap;
+        }
+    }
+
+    public ArrayList<CompanyNews> getCompanyNews() {
+        return companyNews;
+    }
+
+    public void setCompanyNews(ArrayList<CompanyNews> companyNews) {
+        this.companyNews = companyNews;
+    }
+
     public ArrayList toArrayList(){
 
         String[] priceRow = {"Price", getPrice()};
+        String[] openRow = {"Open", getOpen()};
+        String[] closeRow = {"Close", getClose()};
+        String[] highRow = {"High", getHigh()};
+        String[] lowRow = {"Low", getLow()};
         String[] netChangeRow = {"Net Change", getNetChange()};
-        String[] wHighRow = {"Week High", getWeekHigh()};
-        String[] wLowRow = {"Week Low", getWeekLow()};
+        String[] wHighRow = {"52 Week High", getWeekHigh()};
+        String[] wLowRow = {"52 Week Low", getWeekLow()};
 //        String[] dividendRow = {"Dividend", getDividend()};
         String[] volumeRow = {"Volume", getVolume()};
         String[] pERow = {"P/E", getPriceEarning()};
+        String[] mktcapRow = {"Market Cap", getMarketCap()};
 
         detailsList.add(priceRow);
+        detailsList.add(openRow);
+        detailsList.add(closeRow);
+        detailsList.add(highRow);
+        detailsList.add(lowRow);
         detailsList.add(netChangeRow);
         detailsList.add(wHighRow);
         detailsList.add(wLowRow);
 //        detailsList.add(dividendRow);
         detailsList.add(volumeRow);
         detailsList.add(pERow);
+        detailsList.add(mktcapRow);
 
         return detailsList;
     }
