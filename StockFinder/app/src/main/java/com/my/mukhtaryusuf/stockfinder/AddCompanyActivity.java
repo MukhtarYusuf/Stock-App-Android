@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class AddCompanyActivity extends AppCompatActivity {
     final String LOG_TAG = AddCompanyActivity.class.getSimpleName();
 
-    final ArrayList<String> DEFAULT_SYMBOLS = new ArrayList<>(Arrays.asList("IBM","ORCL","GOOG","AAPL","MSFT","ADBE","EBAY","FB","SNAP"));
+    final ArrayList<String> DEFAULT_SYMBOLS = new ArrayList<>(Arrays.asList("IBM","ORCL","GOOG","AAPL","YHOO","MSFT","ADBE","EBAY"));
 
     CompanyAdapter companyAdapter;
     ArrayList<String> originalList;
