@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,9 +22,11 @@ public class CompanyDetailsActivity extends AppCompatActivity {
     TextView companyHeaderSymbol;
     TextView companyHeaderName;
     ListView companyDetails;
+    ListView companyNews;
     ImageView companyChart;
 
     ArrayList<String[]> detailsList = new ArrayList<>();
+    ArrayList<CompanyNews> newsArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +38,30 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Company selectedCompany = (Company) intent.getSerializableExtra("SelectedCompany");
         detailsList = selectedCompany.toArrayList();
+        newsArrayList = selectedCompany.getCompanyNews();
         CompanyDetailsAdapter companyDetailsAdapter = new CompanyDetailsAdapter(getApplicationContext(), R.layout.company_details_row, R.id.attribute_label, detailsList);
+        CompanyNewsAdapter companyNewsAdapter = new CompanyNewsAdapter(getApplicationContext(), R.layout.news_row, R.id.news_headline, newsArrayList);
 
         companyHeaderSymbol = (TextView) findViewById(R.id.company_header_symbol);
         companyHeaderName = (TextView) findViewById(R.id.company_header_name);
         companyDetails = (ListView) findViewById(R.id.details_list);
+        companyNews = (ListView) findViewById(R.id.news_list);
 //        companyChart = (ImageView) findViewById(R.id.company_chart);
 
         companyHeaderSymbol.setText(selectedCompany.getSymbol());
         companyHeaderName.setText(selectedCompany.getName());
         companyDetails.setAdapter(companyDetailsAdapter);
+        companyNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CompanyNews selectedNews = (CompanyNews)parent.getAdapter().getItem(position);
+                String uriString = selectedNews.getUrl();
+                Uri uri = Uri.parse(uriString);
+                Intent intent1 = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent1);
+            }
+        });
+        companyNews.setAdapter(companyNewsAdapter);
 
         finalUrl = BASE_URL+selectedCompany.getSymbol();
         Uri uri = Uri.parse(finalUrl);
