@@ -24,7 +24,8 @@ public class DeleteActivity extends AppCompatActivity {
 
     ArrayList<Company> companyList1;
     ArrayList<String> symbols;
-    final ArrayList<String> DEFAULT_SYMBOLS = new ArrayList<>(Arrays.asList("IBM","ORCL","GOOG","AAPL","YHOO","MSFT","ADBE","EBAY"));
+    final ArrayList<String> DEFAULT_SYMBOLS = new ArrayList<>(Arrays.asList("IBM","ORCL","GOOG","AAPL","MSFT","ADBE","EBAY","FB","SNAP"
+            , "CAJ", "ETSY", "FIS", "GRUB", "PYPL", "V", "WU", "Z", "DLB", "GPRO", "IMAX"));
     ArrayList<Boolean> selectedData1;
 
     ListView dCompanyListView;
