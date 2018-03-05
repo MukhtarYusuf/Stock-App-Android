@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="18dp"
+        android:textSize="17dp"
         android:textColor="@color/md_grey_600"/>
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="18dp"
+        android:textSize="17dp"
         android:textAlignment="viewEnd"
         android:layout_gravity="end"
         android:textColor="@color/md_grey_600"/>
