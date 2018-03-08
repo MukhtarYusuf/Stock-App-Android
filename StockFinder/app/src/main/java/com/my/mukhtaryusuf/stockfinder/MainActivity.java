@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
     private String LOG_TAG = MainActivity.class.getSimpleName();
-    final ArrayList<String> DEFAULT_SYMBOLS = new ArrayList<>(Arrays.asList("IBM","ORCL","GOOG","AAPL","MSFT","ADBE","EBAY","FB","SNAP"));
+    final ArrayList<String> DEFAULT_SYMBOLS = new ArrayList<>(Arrays.asList("IBM","ORCL","GOOG","AAPL","MSFT","ADBE","EBAY","FB","SNAP"
+            , "CAJ", "ETSY", "FIS", "GRUB", "PYPL", "V", "WU", "Z", "DLB", "GPRO", "IMAX"));
     ArrayList<String> symbols;
     ArrayList<Company> companyList1;
 
